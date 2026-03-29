@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yogesh S — Data Analyst &amp; AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#080c10;--bg2:#0e1318;--bg3:#141b22;--surface:#1a2330;
+      --border:rgba(255,255,255,0.07);--accent:#00e5ff;--accent2:#7b61ff;--accent3:#ff6b6b;
+      --text:#e8edf2;--text2:#8fa3b8;--text3:#4d6478;
+      --r:16px;--rsm:10px;
+      --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+    }
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;font-family:var(--fb)}
+
+    .layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh;max-width:1280px;margin:0 auto}
+
+    /* SIDEBAR */
+    .sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--border);padding:36px 24px;display:flex;flex-direction:column;gap:24px;scrollbar-width:none}
+    .sidebar::-webkit-scrollbar{display:none}
+    .avatar-ring{width:90px;height:90px;border-radius:50%;padding:3px;background:conic-gradient(var(--accent),var(--accent2),var(--accent));flex-shrink:0}
+    .avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:26px;font-weight:800;color:var(--bg);border:3px solid var(--bg2)}
+    .profile-name{font-family:var(--fd);font-size:20px;font-weight:800;letter-spacing:-0.5px}
+    .profile-badge{display:inline-block;margin-top:6px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);padding:3px 10px;border-radius:20px}
+    .divider{height:1px;background:var(--border)}
+    .contact-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+    .contact-list li{display:flex;align-items:center;gap:12px}
+    .ci{width:36px;height:36px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:16px}
+    .cl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+    .cv{font-size:13px;color:var(--text2);word-break:break-all}
+    .cv a{color:var(--text2)}.cv a:hover{color:var(--accent)}
+    .social-row{display:flex;gap:10px}
+    .sb{width:40px;height:40px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:18px;transition:all .2s}
+    .sb:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+    .main{display:flex;flex-direction:column;min-height:100vh}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;background:rgba(8,12,16,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 36px;z-index:500;overflow-x:auto;scrollbar-width:none}
+    .navbar::-webkit-scrollbar{display:none}
+    .navbar ul{list-style:none;display:flex;min-width:max-content}
+    .nav-btn{padding:16px 18px;background:none;border:none;font-family:var(--fd);font-size:12px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text3);transition:color .2s;position:relative}
+    .nav-btn::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s}
+    .nav-btn.active{color:var(--text)}.nav-btn.active::after{transform:scaleX(1)}
+    .nav-btn:hover{color:var(--text)}
+
+    /* ARTICLES */
+    .article{display:none;padding:44px 36px}
+    .article.active{display:block;animation:fadeUp .35s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .article-title{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:28px;position:relative;display:inline-block}
+    .article-title::after{content:'';position:absolute;bottom:-6px;left:0;width:36px;height:3px;background:var(--accent);border-radius:2px}
+
+    /* ABOUT */
+    .about-text{margin-bottom:40px}
+    .about-text p{color:var(--text2);margin-bottom:14px;font-size:16px;line-height:1.85}
+    .section-label{font-family:var(--fd);font-size:19px;font-weight:700;margin-bottom:20px}
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .service-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+    .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transition:transform .3s}
+    .service-card:hover{border-color:rgba(0,229,255,0.25);transform:translateY(-3px)}.service-card:hover::before{transform:scaleX(1)}
+    .service-icon{font-size:26px;margin-bottom:12px}
+    .service-title{font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:6px}
+    .service-desc{font-size:14px;color:var(--text2);line-height:1.7}
+
+    /* RESUME */
+    .resume-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:36px}
+    .tl-heading{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:20px}
+    .tl-heading ion-icon{color:var(--accent);font-size:20px}
+    .timeline{position:relative;padding-left:18px}
+    .timeline::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+    .tl-item{position:relative;padding:0 0 24px 22px}
+    .tl-item::before{content:'';position:absolute;left:-4px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+    .tl-title{font-family:var(--fd);font-size:15px;font-weight:700;margin-bottom:3px}
+    .tl-date{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:5px}
+    .tl-desc{font-size:14px;color:var(--text2);line-height:1.7}
+    .skills-heading{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:16px}
+    .skills-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .skill-pill{display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:40px;font-size:14px;font-weight:500;color:var(--text2);transition:all .2s}
+    .skill-pill:hover{border-color:var(--accent);color:var(--accent)}
+
+    /* PROJECTS */
+    .filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+    .filter-btn{padding:7px 18px;border-radius:40px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-family:var(--fd);font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;transition:all .2s}
+    .filter-btn.active,.filter-btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+    .project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,border-color .3s,box-shadow .3s}
+    .project-card:hover{transform:translateY(-4px);border-color:rgba(0,229,255,0.25);box-shadow:0 12px 36px rgba(0,229,255,0.06)}
+    .project-card.hidden{display:none}
+    .proj-img{height:170px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:44px}
+    .proj-body{padding:18px;flex:1;display:flex;flex-direction:column;gap:6px}
+    .proj-cat{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+    .proj-title{font-family:var(--fd);font-size:15px;font-weight:700}
+    .proj-desc{font-size:12px;color:var(--text2);line-height:1.6;flex:1}
+    .proj-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border)}
+    .tech-stack{display:flex;gap:5px;flex-wrap:wrap}
+    .tech-tag{font-size:10px;font-weight:500;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:2px 7px;border-radius:4px}
+    .gh-link{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--text2);padding:5px 11px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);text-decoration:none;transition:all .2s;white-space:nowrap}
+    .gh-link:hover{color:var(--accent);border-color:var(--accent)}
+    .gh-link ion-icon{font-size:13px}
+
+    /* CERTIFICATIONS */
+    .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .cert-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .3s,transform .3s}
+    .cert-card:hover{border-color:rgba(0,229,255,0.2);transform:translateY(-2px)}
+    .cert-card.hidden{display:none}
+    .cert-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .cert-icon{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px}
+    .cert-badge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+    .cert-badge.course{background:rgba(123,97,255,0.12);color:var(--accent2);border:1px solid rgba(123,97,255,0.2)}
+    .cert-badge.internship{background:rgba(255,107,107,0.1);color:var(--accent3);border:1px solid rgba(255,107,107,0.2)}
+    .cert-name{font-family:var(--fd);font-size:14px;font-weight:700;line-height:1.3}
+    .cert-issuer{font-size:12px;color:var(--text2)}
+    .cert-date{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px}
+    .cert-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--accent);margin-top:2px}
+    .cert-link:hover{opacity:0.7}
+
+    /* CONTACT */
+    .contact-cards{display:flex;flex-direction:column;gap:12px;max-width:500px}
+    .contact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;transition:border-color .2s,transform .2s}
+    .contact-card:hover{border-color:var(--accent);transform:translateX(4px)}
+    .cc-icon{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent)}
+    .cc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+    .cc-val{font-size:13px;font-weight:500;color:var(--text)}
+
+    /* MOBILE FAB + SHEET */
+    .fab{display:none;position:fixed;bottom:24px;right:20px;width:54px;height:54px;border-radius:50%;border:none;background:conic-gradient(var(--accent),var(--accent2),var(--accent));align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,229,255,0.35);z-index:200;transition:transform .2s}
+    .fab:active{transform:scale(0.92)}
+    .fab-inner{width:46px;height:46px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:14px;font-weight:800;color:var(--accent);pointer-events:none}
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
+    .overlay.open{opacity:1;pointer-events:auto}
+    .sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);border-radius:22px 22px 0 0;padding:10px 22px 36px;z-index:400;transform:translateY(100%);transition:transform .35s cubic-bezier(0.32,0.72,0,1);max-height:82vh;overflow-y:auto;scrollbar-width:none}
+    .sheet::-webkit-scrollbar{display:none}
+    .sheet.open{transform:translateY(0)}
+    .sheet-handle{width:38px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
+    .sheet-profile{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+    .sheet-ava{width:52px;height:52px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:16px;font-weight:800;color:var(--bg)}
+    .sheet-name{font-family:var(--fd);font-size:17px;font-weight:800}
+    .sheet-role{font-size:11px;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
+    .sheet-contacts{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+    .sc-row{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .sc-icon{width:34px;height:34px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:15px}
+    .sc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+    .sc-val{font-size:12px;color:var(--text2)}
+    .sheet-socials{display:flex;gap:10px}
+
+    /* RESPONSIVE */
+    @media(max-width:860px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .fab{display:flex}
+      .overlay{display:block}
+      .resume-cols{grid-template-columns:1fr}
+    }
+    @media(max-width:580px){
+      .navbar{padding:0 4px}
+      .nav-btn{padding:14px 10px;font-size:10px;letter-spacing:0}
+      .article{padding:28px 16px}
+      .projects-grid{grid-template-columns:1fr}
+      .cert-grid{grid-template-columns:1fr}
+      .services-grid{grid-template-columns:1fr}
+      .article-title{font-size:22px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="avatar-ring"><div class="avatar-inner">YS</div></div>
+    <div>
+      <div class="profile-name">Yogesh S</div>
+      <span class="profile-badge">Data Analyst · AI Engineer</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="contact-list">
+      <li><div class="ci"><ion-icon name="mail-outline"></ion-icon></div><div><div class="cl">Email</div><div class="cv"><a href="/cdn-cgi/l/email-protection#96e5eff9f1f3e5fea7a0a3a4a6a6a0d6f1fbf7fffab8f5f9fb"><span class="__cf_email__" data-cfemail="0f7c7660686a7c673e393a3d3f3f394f68626e6663216c6062">[email&#160;protected]</span></a></div></div></li>
+      <li><div class="ci"><ion-icon name="call-outline"></ion-icon></div><div><div class="cl">Phone</div><div class="cv"><a href="tel:+917871909047">+91 7871909047</a></div></div></li>
+      <li><div class="ci"><ion-icon name="calendar-outline"></ion-icon></div><div><div class="cl">Birthday</div><div class="cv">May 16, 2006</div></div></li>
+      <li><div class="ci"><ion-icon name="location-outline"></ion-icon></div><div><div class="cl">Location</div><div class="cv">Chennai, Tamil Nadu, India</div></div></li>
+    </ul>
+    <div class="divider"></div>
+    <div class="social-row">
+      <a href="https://www.linkedin.com/in/yogesh-s-617334378" target="_blank" class="sb"><ion-icon name="logo-linkedin"></ion-icon></a>
+      <a href="https://github.com/Yogesh-016" target="_blank" class="sb"><ion-icon name="logo-github"></ion-icon></a>
+      <a href="/cdn-cgi/l/email-protection#27545e484042544f1611121517171167404a464e4b0944484a" class="sb"><ion-icon name="mail-outline"></ion-icon></a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <nav class="navbar">
+      <ul>
+        <li><button class="nav-btn active" data-page="about">About</button></li>
+        <li><button class="nav-btn" data-page="resume">Resume</button></li>
+        <li><button class="nav-btn" data-page="projects">Projects</button></li>
+        <li><button class="nav-btn" data-page="certifications">Certs</button></li>
+        <li><button class="nav-btn" data-page="contact">Contact</button></li>
+      </ul>
+    </nav>
+
+    <!-- ABOUT -->
+    <article class="article active" id="about">
+      <h2 class="article-title">About Me</h2>
+      <div class="about-text">
+        <p>I am a B.Tech student in Artificial Intelligence and Data Science with a strong foundation in data analytics, machine learning, and statistical analysis. I am passionate about leveraging data to solve real-world problems and generate actionable insights.</p>
+        <p>Skilled in Python, SQL, data visualization, and predictive modeling, I have completed multiple projects involving data cleaning, EDA, and model development. I am eager to apply my technical expertise in a dynamic organization as a Data Analyst or Data Science professional.</p>
+      </div>
+      <div class="section-label">What I Do</div>
+      <div class="services-grid">
+        <div class="service-card"><div class="service-icon">📊</div><div class="service-title">Data Analysis</div><div class="service-desc">Analyzing structured and unstructured data to extract meaningful insights using Python, Pandas, and SQL.</div></div>
+        <div class="service-card"><div class="service-icon">📈</div><div class="service-title">Data Visualization</div><div class="service-desc">Creating interactive dashboards and visual reports using Power BI, Matplotlib, and Seaborn.</div></div>
+        <div class="service-card"><div class="service-icon">🤖</div><div class="service-title">Machine Learning</div><div class="service-desc">Building predictive models using regression, classification, and supervised learning techniques.</div></div>
+        <div class="service-card"><div class="service-icon">🧹</div><div class="service-title">Data Cleaning &amp; EDA</div><div class="service-desc">Performing exploratory data analysis and preprocessing to ensure high-quality datasets.</div></div>
+        <div class="service-card"><div class="service-icon">🗄️</div><div class="service-title">Database Management</div><div class="service-desc">Writing optimized SQL queries and managing relational databases for efficient data retrieval.</div></div>
+        <div class="service-card"><div class="service-icon">💡</div><div class="service-title">Business Intelligence</div><div class="service-desc">Converting raw data into actionable business insights through KPI tracking and performance analysis.</div></div>
+      </div>
+    </article>
+
+    <!-- RESUME -->
+    <article class="article" id="resume">
+      <h2 class="article-title">Resume</h2>
+      <div class="resume-cols">
+        <div>
+          <div class="tl-heading"><ion-icon name="school-outline"></ion-icon> Education</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-title">B.Tech — AI &amp; Data Science</div><div class="tl-date">2023 — 2027</div><div class="tl-desc">Pursuing undergraduate degree with focus on machine learning, data analytics, and statistical modeling.</div></div>
+            <div class="tl-item"><div class="tl-title">Higher Secondary (12th)</div><div class="tl-date">2021 — 2023</div><div class="tl-desc">Completed with strong foundation in Mathematics, Physics, and Computer Science.</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="tl-heading"><ion-icon name="briefcase-outline"></ion-icon> Experience</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-title">Data Science Intern</div><div class="tl-date">2024</div><div class="tl-desc">Worked on real-world data pipelines, EDA, and model deployment in an industry setting.</div></div>
+            <div class="tl-item"><div class="tl-title">Freelance Data Analyst</div><div class="tl-date">2023 — Present</div><div class="tl-desc">Delivering data analysis and visualization solutions for clients using Python and Power BI.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="skills-heading">Technical Skills</div>
+      <div class="skills-pills">
+        <div class="skill-pill">🐍 Python</div>
+        <div class="skill-pill">🗄️ SQL</div>
+        <div class="skill-pill">📊 Excel</div>
+        <div class="skill-pill">📉 Power BI</div>
+        <div class="skill-pill">🤖 Machine Learning</div>
+        <div class="skill-pill">📦 Pandas</div>
+        <div class="skill-pill">🔢 NumPy</div>
+        <div class="skill-pill">📈 Matplotlib</div>
+        <div class="skill-pill">🌊 Seaborn</div>
+        <div class="skill-pill">⚡ Scikit-learn</div>
+        <div class="skill-pill">📝 Jupyter</div>
+        <div class="skill-pill">🐙 Git / GitHub</div>
+      </div>
+    </article>
+
+    <!-- PROJECTS -->
+    <article class="article" id="projects">
+      <h2 class="article-title">Projects</h2>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="data-analysis">Data Analysis</button>
+        <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
+        <button class="filter-btn" data-filter="dashboards">Dashboards</button>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card" data-category="data-analysis">
+          <div class="proj-img">📊</div>
+          <div class="proj-body"><div class="proj-cat">Data Analysis</div><div class="proj-title">Finance Dashboard Analysis</div><div class="proj-desc">Comprehensive analysis of financial data to identify trends, anomalies, and key performance indicators.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">Pandas</span><span class="tech-tag">Seaborn</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+        <div class="project-card" data-category="machine-learning">
+          <div class="proj-img">🤖</div>
+          <div class="proj-body"><div class="proj-cat">Machine Learning</div><div class="proj-title">Customer Churn Prediction</div><div class="proj-desc">Built a classification model to predict customer churn with feature engineering and hyperparameter tuning.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Scikit-learn</span><span class="tech-tag">Python</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+        <div class="project-card" data-category="dashboards">
+          <div class="proj-img">📉</div>
+          <div class="proj-body"><div class="proj-cat">Dashboards</div><div class="proj-title">Sales Performance Dashboard</div><div class="proj-desc">Interactive Power BI dashboard tracking regional sales KPIs, YoY growth, and product performance.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Power BI</span><span class="tech-tag">SQL</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+        <div class="project-card" data-category="data-analysis">
+          <div class="proj-img">🏥</div>
+          <div class="proj-body"><div class="proj-cat">Data Analysis</div><div class="proj-title">Healthcare EDA</div><div class="proj-desc">Exploratory analysis on a patient dataset to uncover patterns in disease prevalence and treatment outcomes.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Python</span><span class="tech-tag">Matplotlib</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+        <div class="project-card" data-category="machine-learning">
+          <div class="proj-img">🏠</div>
+          <div class="proj-body"><div class="proj-cat">Machine Learning</div><div class="proj-title">House Price Predictor</div><div class="proj-desc">Regression model to predict property prices using location, area, and amenity features.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Scikit-learn</span><span class="tech-tag">NumPy</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+        <div class="project-card" data-category="dashboards">
+          <div class="proj-img">🛒</div>
+          <div class="proj-body"><div class="proj-cat">Dashboards</div><div class="proj-title">E-Commerce Analytics</div><div class="proj-desc">End-to-end analytics dashboard covering orders, returns, revenue trends, and customer segmentation.</div></div>
+          <div class="proj-footer"><div class="tech-stack"><span class="tech-tag">Excel</span><span class="tech-tag">SQL</span><span class="tech-tag">Power BI</span></div><a href="https://github.com/Yogesh-016" target="_blank" class="gh-link"><ion-icon name="logo-github"></ion-icon> Code</a></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CERTIFICATIONS -->
+    <article class="article" id="certifications">
+      <h2 class="article-title">Certifications</h2>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-cert-filter="all">All</button>
+        <button class="filter-btn" data-cert-filter="course">Course</button>
+        <button class="filter-btn" data-cert-filter="internship">Internship</button>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card" data-cert-type="course"><div class="cert-top"><div class="cert-icon">🐍</div><span class="cert-badge course">Course</span></div><div class="cert-name">Python for Data Science</div><div class="cert-issuer">NPTEL / Coursera</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2024</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+        <div class="cert-card" data-cert-type="course"><div class="cert-top"><div class="cert-icon">🤖</div><span class="cert-badge course">Course</span></div><div class="cert-name">Machine Learning Fundamentals</div><div class="cert-issuer">Udemy</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2024</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+        <div class="cert-card" data-cert-type="internship"><div class="cert-top"><div class="cert-icon">💼</div><span class="cert-badge internship">Internship</span></div><div class="cert-name">Data Science Internship</div><div class="cert-issuer">Company / Organisation</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2024</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+        <div class="cert-card" data-cert-type="course"><div class="cert-top"><div class="cert-icon">📊</div><span class="cert-badge course">Course</span></div><div class="cert-name">SQL for Data Analysis</div><div class="cert-issuer">Kaggle</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2023</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+        <div class="cert-card" data-cert-type="course"><div class="cert-top"><div class="cert-icon">📉</div><span class="cert-badge course">Course</span></div><div class="cert-name">Power BI for Business</div><div class="cert-issuer">Microsoft Learn</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2024</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+        <div class="cert-card" data-cert-type="internship"><div class="cert-top"><div class="cert-icon">🔬</div><span class="cert-badge internship">Internship</span></div><div class="cert-name">AI Research Internship</div><div class="cert-issuer">Research Lab / Institute</div><div class="cert-date"><ion-icon name="calendar-outline"></ion-icon> 2024</div><a href="#" class="cert-link"><ion-icon name="open-outline"></ion-icon> View Certificate</a></div>
+      </div>
+    </article>
+
+    <!-- CONTACT -->
+    <article class="article" id="contact">
+      <h2 class="article-title">Contact</h2>
+      <div class="contact-cards">
+        <a href="/cdn-cgi/l/email-protection#25565c4a4240564d14131017151513654248444c490b464a48" class="contact-card"><div class="cc-icon"><ion-icon name="mail-outline"></ion-icon></div><div><div class="cc-label">Email</div><div class="cc-val"><span class="__cf_email__" data-cfemail="d6a5afb9b1b3a5bee7e0e3e4e6e6e096b1bbb7bfbaf8b5b9bb">[email&#160;protected]</span></div></div></a>
+        <a href="tel:+917871909047" class="contact-card"><div class="cc-icon"><ion-icon name="call-outline"></ion-icon></div><div><div class="cc-label">Phone</div><div class="cc-val">+91 7871909047</div></div></a>
+        <a href="https://www.linkedin.com/in/yogesh-s-617334378" target="_blank" class="contact-card"><div class="cc-icon"><ion-icon name="logo-linkedin"></ion-icon></div><div><div class="cc-label">LinkedIn</div><div class="cc-val">yogesh-s-617334378</div></div></a>
+        <a href="https://github.com/Yogesh-016" target="_blank" class="contact-card"><div class="cc-icon"><ion-icon name="logo-github"></ion-icon></div><div><div class="cc-label">GitHub</div><div class="cc-val">github.com/Yogesh-016</div></div></a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<!-- MOBILE FAB -->
+<button class="fab" id="fab"><div class="fab-inner">YS</div></button>
+<div class="overlay" id="overlay"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-profile">
+    <div class="sheet-ava">YS</div>
+    <div><div class="sheet-name">Yogesh S</div><div class="sheet-role">Data Analyst · AI Engineer</div></div>
+  </div>
+  <div class="sheet-contacts">
+    <a href="/cdn-cgi/l/email-protection#e192988e86849289d0d7d4d3d1d1d7a1868c80888dcf828e8c" class="sc-row"><div class="sc-icon"><ion-icon name="mail-outline"></ion-icon></div><div><div class="sc-label">Email</div><div class="sc-val"><span class="__cf_email__" data-cfemail="67141e080002140f5651525557575127000a060e0b4904080a">[email&#160;protected]</span></div></div></a>
+    <a href="tel:+917871909047" class="sc-row"><div class="sc-icon"><ion-icon name="call-outline"></ion-icon></div><div><div class="sc-label">Phone</div><div class="sc-val">+91 7871909047</div></div></a>
+    <div class="sc-row"><div class="sc-icon"><ion-icon name="calendar-outline"></ion-icon></div><div><div class="sc-label">Birthday</div><div class="sc-val">May 16, 2006</div></div></div>
+    <div class="sc-row"><div class="sc-icon"><ion-icon name="location-outline"></ion-icon></div><div><div class="sc-label">Location</div><div class="sc-val">Chennai, Tamil Nadu, India</div></div></div>
+  </div>
+  <div class="sheet-socials">
+    <a href="https://www.linkedin.com/in/yogesh-s-617334378" target="_blank" class="sb"><ion-icon name="logo-linkedin"></ion-icon></a>
+    <a href="https://github.com/Yogesh-016" target="_blank" class="sb"><ion-icon name="logo-github"></ion-icon></a>
+    <a href="/cdn-cgi/l/email-protection#0c7f75636b697f643d3a393e3c3c3a4c6b616d6560226f6361" class="sb"><ion-icon name="mail-outline"></ion-icon></a>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // NAV
+  document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.article').forEach(function(a) { a.classList.remove('active'); });
+      document.getElementById(btn.dataset.page).classList.add('active');
+    });
+  });
+
+  // PROJECT FILTER
+  document.querySelectorAll('[data-filter]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-filter]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var val = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(function(card) {
+        card.classList.toggle('hidden', val !== 'all' && card.dataset.category !== val);
+      });
+    });
+  });
+
+  // CERT FILTER
+  document.querySelectorAll('[data-cert-filter]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-cert-filter]').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var val = btn.dataset.certFilter;
+      document.querySelectorAll('.cert-card').forEach(function(card) {
+        card.classList.toggle('hidden', val !== 'all' && card.dataset.certType !== val);
+      });
+    });
+  });
+
+    // MOBILE BOTTOM SHEET
+  var fab = document.getElementById('fab');
+  var overlay = document.getElementById('overlay');
+  var sheet = document.getElementById('sheet');
+
+  function openSheet() {
+    sheet.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  fab.addEventListener('click', openSheet);
+  overlay.addEventListener('click', closeSheet);
+
+  var startY = 0;
+  sheet.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true });
+  sheet.addEventListener('touchend', function(e) {
+    if (e.changedTouches[0].clientY - startY > 60) closeSheet();
+  }, { passive: true });
+</script>
+</body>
+</html>
